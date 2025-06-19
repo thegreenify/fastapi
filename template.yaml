@@ -1,0 +1,22 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: FastAPI Allottee API via Lambda + API Gateway + DynamoDB
+
+Resources:
+  AllotteeApiFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: app/
+      Handler: main.handler
+      Runtime: python3.9
+      Timeout: 10
+      Environment:
+        Variables:
+          API_KEY: SsJRzU3doI4v02gqEDbXG88cWCpgwvUw58BL2gTT
+          DDB_TABLE: AllotteeTable
+      Events:
+        ProxyApi:
+          Type: Api
+          Properties:
+            Path: /{proxy+}
+            Method: ANY
